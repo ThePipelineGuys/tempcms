@@ -23,11 +23,13 @@ body:
     id: excerpt
     attributes:
       label: Excerpt
-      description: The excerpt
+      description: The excerpt. Kepp it short and one line max
       placeholder: In this post...
     validations:
       required: true
-  - type: markdown
+  - type: textarea
+    id: body
     attributes:
+      label: The body of hte post
       value: |
         This is the whole content of the post!
