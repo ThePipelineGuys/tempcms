@@ -49,7 +49,7 @@ jobs:
         title: ${{steps.title.outputs.value}}
         date: ${{steps.issue.outputs.issueparser_date}}
         excerpt: ${{steps.issue.outputs.issueparser_excerpt}}
-        tags: ${{toJSON(steps.issue.outputs.issueparser_tags)}}
+        tags: ${{fromJSON(steps.issue.outputs.jsonString).tags}}
         ---
         ${{steps.issue.outputs.issueparser_body}}
         EOF
