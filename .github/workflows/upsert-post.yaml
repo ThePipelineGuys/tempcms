@@ -1,0 +1,32 @@
+name: Post Upsert
+
+on:
+  issues:
+    types: 
+    - opened
+    - edited
+
+concurrency: main
+
+jobs:
+  setup_repo:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+  
+    - run: |
+        echo ${{ github.event.issue }}
+
+    - uses: stefanbuck/github-issue-praser@v2
+      id: issue-parser
+      with:
+        template-path: .github/ISSUE_TEMPLATE/post.yaml
+
+    - name: Commit changes
+      shell: bash
+      run: |
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
+        git add .
+        git commit -m "Change post ${{steps.issue-parser.outputs.issueparser_title}}"
+        git push
