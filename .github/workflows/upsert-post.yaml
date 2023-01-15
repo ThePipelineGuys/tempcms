@@ -17,7 +17,7 @@ jobs:
 
     - id: type
       run: |
-        type=$(echo ${{ contains(github.event.issue.labels.[0].name }} | cut -d ':' -f2)
+        type=$(echo ${{ contains(github.event.issue.labels[0].name }} | cut -d ':' -f2)
         echo "::set-output name=value::$type"
 
     - run: echo "${{steps.type.outputs.value}}"
