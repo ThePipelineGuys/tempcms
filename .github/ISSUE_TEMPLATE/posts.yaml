@@ -19,7 +19,7 @@ body:
       placeholder: YYYY-MM-DD
     validations:
       required: true
-  - type: dropdown
+  - type: checkboxes
     id: tags
     attributes:
       label: Tags
