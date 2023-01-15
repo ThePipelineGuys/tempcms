@@ -6,8 +6,6 @@ on:
     - opened
     - edited
 
-concurrency: main
-
 jobs:
   setup_repo:
     runs-on: ubuntu-latest
