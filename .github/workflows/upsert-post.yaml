@@ -12,7 +12,7 @@ jobs:
   setup_repo:
     runs-on: ubuntu-latest
     steps:
-    - run: echo "${{github.event.issue.labels}}"
+    - run: echo "${{toJSON(github.event.issue.labels)}}"
 
     - run: exit 0
       if: ${{ ! contains(github.event.issue.labels[0].name, 'type:') }}
