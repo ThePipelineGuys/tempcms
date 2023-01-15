@@ -22,6 +22,11 @@ jobs:
         type=$(echo ${{ github.event.issue.labels[0].name }} | cut -d ':' -f2)
         echo "value=$type" >> $GITHUB_OUTPUT
     
+    - name: Get number
+      id: number
+      run: |
+        echo "value=${{github.event.issue.number}}" >> $GITHUB_OUTPUT
+
     - name: Get title
       id: title
       run: |
@@ -42,7 +47,7 @@ jobs:
         cat <<EOF >'src/lib/${{steps.type.outputs.value}}/${{steps.issue.outputs.issueparser_slug}}.md'
         ---
         slug: ${{steps.issue.outputs.issueparser_slug}}
-        title: We are live!
+        title: ${{steps.title.outputs.value}}
         date: ${{steps.issue.outputs.issueparser_date}}
         excerpt: ${{steps.issue.outputs.issueparser_excerpt}}
         tags: ${{steps.issue.outputs.issueparser_tags}}
