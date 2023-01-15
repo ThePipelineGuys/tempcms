@@ -1,0 +1,33 @@
+name: Blog Post
+description: Create a new blog post
+title: "Insert the title here"
+labels: ["blogpost"]
+body:
+  - type: input
+    id: slug
+    attributes:
+      label: Slug
+      description: The post slug
+      placeholder: my-blog-post
+    validations:
+      required: true
+  - type: input
+    id: slug
+    attributes:
+      label: Slug
+      description: The post slug
+      placeholder: my-blog-post
+    validations:
+      required: true
+  - type: textarea
+    id: excerpt
+    attributes:
+      label: Excerpt
+      description: The excerpt
+      placeholder: In this post...
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      placeholder: |
+        This is the whole content of the post!
