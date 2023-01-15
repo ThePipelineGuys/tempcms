@@ -39,6 +39,7 @@ body:
   - type: textarea
     id: body
     attributes:
-      label: The body of hte post
+      label: Body
+      description: The body of the content
       value: |
         This is the whole content of the post!
