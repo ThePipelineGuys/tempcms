@@ -19,6 +19,15 @@ body:
       placeholder: YYYY-MM-DD
     validations:
       required: true
+  - type: dropdown
+    id: tags
+    attributes:
+      label: Tags
+      description: The tags
+      multiple: true
+      options:
+        - label: VMware
+        - label: Cloud
   - type: textarea
     id: excerpt
     attributes:

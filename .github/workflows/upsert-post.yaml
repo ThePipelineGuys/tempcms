@@ -5,33 +5,55 @@ on:
     types: 
     - opened
     - edited
-    - delete
+    - deleted
 
 jobs:
   setup_repo:
     runs-on: ubuntu-latest
     steps:
     - run: echo '${{toJSON(github.event)}}'
-    - run: exit 0
+    - name: Check type
       if: ${{ ! contains(github.event.issue.labels[0].name, 'type:') }}
+      run: exit 0
 
-    - id: type
+    - name: Get type
+      id: type
       run: |
         type=$(echo ${{ github.event.issue.labels[0].name }} | cut -d ':' -f2)
         echo "value=$type" >> $GITHUB_OUTPUT
     
-    - id: title
+    - name: Get title
+      id: title
       run: |
         echo "value=${{github.event.issue.title}}" >> $GITHUB_OUTPUT
 
-    - uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
   
-    - uses: stefanbuck/github-issue-praser@v3
+    - name: Parse issue
+      uses: stefanbuck/github-issue-praser@v3
       id: issue
       with:
         template-path: ".github/ISSUE_TEMPLATE/${{steps.type.outputs.value}}.yaml"
 
-    - run: echo "${{steps.issue.outputs.issueparser_slug}}"
+    - name: Post
+      if: ${{ (github.event.action != 'deleted') && (steps.type.outputs.value == 'posts') }}
+      run: |
+        cat <<EOF >'src/lib/${{steps.type.outputs.value}}/${{steps.issue-parser.outputs.issueparser_slug}}.md'
+        ---
+        slug: ${{steps.issue-parser.outputs.issueparser_slug}}
+        title: We are live!
+        date: ${{steps.issue-parser.outputs.issueparser_date}}
+        excerpt: ${{steps.issue-parser.outputs.issueparser_excerpt}}
+        tags: ${{steps.issue-parser.outputs.issueparser_tags}}
+        ---
+        ${{steps.issue-parser.outputs.issueparser_body}}
+        EOF
+
+    - name: Delete
+      if: ${{github.event.action == 'deleted'}}
+      run: |
+        rm 'src/lib/${{steps.type.outputs.value}}/${{steps.issue-parser.outputs.issueparser_slug}}.md'
 
     - name: Commit changes
       shell: bash
@@ -39,5 +61,5 @@ jobs:
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
         git add .
-        git commit -m "Change post ${{steps.issue-parser.outputs.issueparser_slug}}"
+        git commit -m "${{github.event.action}} ${{steps.issue-parser.outputs.issueparser_slug}}"
         git push
