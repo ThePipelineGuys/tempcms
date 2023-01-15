@@ -12,10 +12,16 @@ jobs:
   setup_repo:
     runs-on: ubuntu-latest
     steps:
+    - run: exit 0
+      if: ${{ contains("|"+join(github.event.issue.labels.*.name, '|'), '|type:') }}
+
     - uses: actions/checkout@v2
   
     - run: |
         echo '${{ toJSON(github.event.issue) }}'
+
+    - run: |
+        echo '${{ github.event.issue.labels[0].name }}'
 
     - uses: stefanbuck/github-issue-praser@v2
       id: issue-parser
