@@ -14,7 +14,7 @@ jobs:
     - run: echo '${{toJSON(github.event)}}'
     - name: Check type
       if: ${{ ! contains(github.event.issue.labels[0].name, 'type:') }}
-      run: exit 0
+      run: exit 1
 
     - name: Get type
       id: type

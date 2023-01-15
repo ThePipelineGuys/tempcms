@@ -1,7 +1,7 @@
 name: Blog Post
 description: Create a new blog post
 title: "Insert the title here"
-labels: ["blogpost"]
+labels: ["type:posts"]
 body:
   - type: input
     id: slug
@@ -26,8 +26,8 @@ body:
       description: The tags
       multiple: true
       options:
-        - label: VMware
-        - label: Cloud
+      - VMware
+      - Cloud
   - type: textarea
     id: excerpt
     attributes:
