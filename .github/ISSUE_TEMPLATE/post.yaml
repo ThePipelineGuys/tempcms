@@ -12,11 +12,11 @@ body:
     validations:
       required: true
   - type: input
-    id: slug
+    id: date
     attributes:
-      label: Slug
-      description: The post slug
-      placeholder: my-blog-post
+      label: Date
+      description: The publication date
+      placeholder: YYYY-MM-DD
     validations:
       required: true
   - type: textarea
@@ -29,5 +29,5 @@ body:
       required: true
   - type: markdown
     attributes:
-      placeholder: |
+      value: |
         This is the whole content of the post!
