@@ -13,20 +13,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - run: exit 0
-      if: ${{ contains("|"+join(github.event.issue.labels.*.name, '|'), '|type:') }}
+      if: ${{ ! contains(github.event.issue.labels.[0].name, 'type:') }}
+
+    - id: type
+      run: |
+        type=$(echo ${{ contains(github.event.issue.labels.[0].name }} | cut -d ':' -f2)
+        echo "::set-output name=value::$type"
+
+    - run: echo "${{steps.type.outputs.value}}"
 
     - uses: actions/checkout@v2
   
-    - run: |
-        echo '${{ toJSON(github.event.issue) }}'
-
-    - run: |
-        echo '${{ github.event.issue.labels[0].name }}'
-
     - uses: stefanbuck/github-issue-praser@v2
-      id: issue-parser
+      id: issue
       with:
-        template-path: .github/ISSUE_TEMPLATE/post.yaml
+        template-path: ".github/ISSUE_TEMPLATE/${{steps.type.outputs.value}}.yaml"
+
+    - run: echo "${{steps.issue.outputs.issueparser_title}}"
 
     - name: Commit changes
       shell: bash
