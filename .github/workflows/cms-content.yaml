@@ -1,4 +1,4 @@
-name: Content Upsert
+name: CMS Content
 
 on:
   issues:
