@@ -39,21 +39,21 @@ jobs:
     - name: Post
       if: ${{ (github.event.action != 'deleted') && (steps.type.outputs.value == 'posts') }}
       run: |
-        cat <<EOF >'src/lib/${{steps.type.outputs.value}}/${{steps.issue-parser.outputs.issueparser_slug}}.md'
+        cat <<EOF >'src/lib/${{steps.type.outputs.value}}/${{steps.issue.outputs.issueparser_slug}}.md'
         ---
-        slug: ${{steps.issue-parser.outputs.issueparser_slug}}
+        slug: ${{steps.issue.outputs.issueparser_slug}}
         title: We are live!
-        date: ${{steps.issue-parser.outputs.issueparser_date}}
-        excerpt: ${{steps.issue-parser.outputs.issueparser_excerpt}}
-        tags: ${{steps.issue-parser.outputs.issueparser_tags}}
+        date: ${{steps.issue.outputs.issueparser_date}}
+        excerpt: ${{steps.issue.outputs.issueparser_excerpt}}
+        tags: ${{steps.issue.outputs.issueparser_tags}}
         ---
-        ${{steps.issue-parser.outputs.issueparser_body}}
+        ${{steps.issue.outputs.issueparser_body}}
         EOF
 
     - name: Delete
       if: ${{github.event.action == 'deleted'}}
       run: |
-        rm 'src/lib/${{steps.type.outputs.value}}/${{steps.issue-parser.outputs.issueparser_slug}}.md'
+        rm 'src/lib/${{steps.type.outputs.value}}/${{steps.issue.outputs.issueparser_slug}}.md'
 
     - name: Commit changes
       shell: bash
@@ -61,5 +61,5 @@ jobs:
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
         git add .
-        git commit -m "${{github.event.action}} ${{steps.issue-parser.outputs.issueparser_slug}}"
+        git commit -m "${{github.event.action}} ${{steps.issue.outputs.issueparser_slug}}"
         git push
